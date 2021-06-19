@@ -1,61 +1,99 @@
 import styled from "styled-components";
-import Slider from "@material-ui/core/Slider";
+import { Slider, Grid } from "@material-ui/core";
 import { useState } from "react";
 
-const TeamsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+const TeamsWrapper = styled(Grid)``;
 
 const Wrapper = styled.div`
-  padding: 10%;
+  padding: 5%;
+  margin: 5%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
 
-const Team = styled.div``;
+interface TeamProps {
+  $isHighlighted: boolean;
+}
+const Team = styled(Grid)<TeamProps>`
+  ${(props) =>
+    props.$isHighlighted &&
+    `-webkit-box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px,
+    red 0 -18px 40px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px,
+    red 0 -18px 40px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+    transition: box-shadow 0.5s ease-in-out;
+`}
+`;
+
+const TeamName = styled.span`
+  text-align: center;
+  display: block;
+  font-size: 18px;
+`;
+
+const TeamImage = styled.img`
+  width: 100%;
+`;
 
 const MAX_RANGE = 25;
-const MIN_RANGE = -25;
+const POINTS_DIFFERENCE = 4;
 
 interface Props {
   game: IGame;
 }
 export default function SingleGame({ game }: Props) {
   // Positive for home team, negative for away team
-  const [winningRange, setWinningRange] = useState([0, 0]);
+  const [winningRange, setWinningRange] = useState([0, POINTS_DIFFERENCE]);
+  const [winningTeam, setWinningTeam] = useState(0);
 
   const handleWinningRangeChange = (newValue: any) => {
-    console.log(newValue);
-
-    // if (newValue[0] === MAX_RANGE && )
-
-    if (newValue[0] !== winningRange[0] && newValue[0] >= MIN_RANGE) {
-      newValue[1] = newValue[0] + 5;
-    } else if (newValue[1] !== winningRange[1] && newValue[1] <= MAX_RANGE) {
-      newValue[0] = newValue[1] - 5;
-    }
-
-    if (newValue[0] < MIN_RANGE) {
-      newValue[1] = newValue[0];
-    } else if (newValue[1] > MAX_RANGE) {
-      newValue[0] = newValue[1];
+    if (newValue[0] !== winningRange[0]) {
+      if (newValue[0] > MAX_RANGE - POINTS_DIFFERENCE + 1) {
+        newValue[0] = MAX_RANGE - POINTS_DIFFERENCE + 1;
+      }
+      newValue[1] = newValue[0] + POINTS_DIFFERENCE;
+    } else {
+      if (newValue[1] < POINTS_DIFFERENCE) {
+        newValue[1] = POINTS_DIFFERENCE;
+      }
+      newValue[0] = newValue[1] - POINTS_DIFFERENCE;
     }
 
     setWinningRange(newValue);
   };
 
   const rangeValueLable = (value: number) => {
-    if (value > MAX_RANGE || value < MIN_RANGE) {
+    if (value > MAX_RANGE) {
       return `${MAX_RANGE + 1}+`;
     }
 
-    return Math.abs(value);
+    return value;
+  };
+
+  const changeWinningTeam = (id: number) => {
+    setWinningTeam(id);
   };
 
   return (
     <Wrapper>
-      <TeamsWrapper>
-        <Team>{game.homeTeam}</Team>
-        <Team>{game.awayTeam}</Team>
+      <TeamsWrapper container justify="space-between">
+        <Team
+          item
+          xs={4}
+          $isHighlighted={winningTeam === game.homeTeam.id}
+          onClick={() => changeWinningTeam(game.homeTeam.id)}
+        >
+          <TeamName>{game.homeTeam.name}</TeamName>
+          <TeamImage src={game.homeTeam.imageUrl} />
+        </Team>
+        <Team
+          item
+          xs={4}
+          $isHighlighted={winningTeam === game.awayTeam.id}
+          onClick={() => changeWinningTeam(game.awayTeam.id)}
+        >
+          <TeamName>{game.awayTeam.name}</TeamName>
+          <TeamImage src={game.awayTeam.imageUrl} />
+        </Team>
       </TeamsWrapper>
       <Slider
         value={winningRange}
@@ -64,7 +102,7 @@ export default function SingleGame({ game }: Props) {
         valueLabelDisplay={
           winningRange[0] === 0 && winningRange[1] === 0 ? "off" : "on"
         }
-        min={MIN_RANGE - 1}
+        min={0}
         max={MAX_RANGE + 1}
       />
     </Wrapper>
