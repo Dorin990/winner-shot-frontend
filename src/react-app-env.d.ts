@@ -16,3 +16,9 @@ interface IUser {
   lastName: string;
   imageUrl: string;
 }
+
+interface ILeague {
+  name: string;
+  userPlace: number;
+  count: number;
+}

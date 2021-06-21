@@ -1,14 +1,9 @@
 import styled from "styled-components";
 import { Slider, Grid } from "@material-ui/core";
 import { useState } from "react";
+import Card from "./Card";
 
 const TeamsWrapper = styled(Grid)``;
-
-const Wrapper = styled.div`
-  padding: 5% 5% 0 5%;
-  margin: 5%;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-`;
 
 interface TeamProps {
   $isHighlighted: boolean;
@@ -78,44 +73,46 @@ export default function SingleGame({ game }: Props) {
   };
 
   return (
-    <Wrapper>
-      <TeamsWrapper container justify="space-between">
-        <Team
-          item
-          xs={4}
-          $isHighlighted={winningTeam === game.homeTeam.id}
-          onClick={() => changeWinningTeam(game.homeTeam.id)}
-        >
-          <TeamName>{game.homeTeam.name}</TeamName>
-          <TeamImage
-            $isLoaded={teamsImagesToLoad === 0}
-            onLoad={() => setTeamImagesToLoad(teamsImagesToLoad - 1)}
-            src={game.homeTeam.imageUrl}
-          />
-        </Team>
-        <Team
-          item
-          xs={4}
-          $isHighlighted={winningTeam === game.awayTeam.id}
-          onClick={() => changeWinningTeam(game.awayTeam.id)}
-        >
-          <TeamName>{game.awayTeam.name}</TeamName>
-          <TeamImage
-            $isLoaded={teamsImagesToLoad === 0}
-            onLoad={() => setTeamImagesToLoad(teamsImagesToLoad - 1)}
-            src={game.awayTeam.imageUrl}
-          />
-        </Team>
-      </TeamsWrapper>
-      <Slider
-        value={winningRange}
-        onChange={(event, newvalue) => handleWinningRangeChange(newvalue)}
-        valueLabelFormat={rangeValueLable}
-        valueLabelDisplay={winningTeam ? "on" : "off"}
-        disabled={winningTeam === 0}
-        min={0}
-        max={MAX_RANGE + 1}
-      />
-    </Wrapper>
+    <Card>
+      <div>
+        <TeamsWrapper container justify="space-between">
+          <Team
+            item
+            xs={4}
+            $isHighlighted={winningTeam === game.homeTeam.id}
+            onClick={() => changeWinningTeam(game.homeTeam.id)}
+          >
+            <TeamName>{game.homeTeam.name}</TeamName>
+            <TeamImage
+              $isLoaded={teamsImagesToLoad === 0}
+              onLoad={() => setTeamImagesToLoad(teamsImagesToLoad - 1)}
+              src={game.homeTeam.imageUrl}
+            />
+          </Team>
+          <Team
+            item
+            xs={4}
+            $isHighlighted={winningTeam === game.awayTeam.id}
+            onClick={() => changeWinningTeam(game.awayTeam.id)}
+          >
+            <TeamName>{game.awayTeam.name}</TeamName>
+            <TeamImage
+              $isLoaded={teamsImagesToLoad === 0}
+              onLoad={() => setTeamImagesToLoad(teamsImagesToLoad - 1)}
+              src={game.awayTeam.imageUrl}
+            />
+          </Team>
+        </TeamsWrapper>
+        <Slider
+          value={winningRange}
+          onChange={(event, newvalue) => handleWinningRangeChange(newvalue)}
+          valueLabelFormat={rangeValueLable}
+          valueLabelDisplay={winningTeam ? "on" : "off"}
+          disabled={winningTeam === 0}
+          min={0}
+          max={MAX_RANGE + 1}
+        />
+      </div>
+    </Card>
   );
 }
