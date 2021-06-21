@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import pages from "./pages";
 import BottomNavigation from "./components/BottomNavigation";
 import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
+import pages from "./pages";
+import { useAppDispatch } from "./state/hooks";
+import { setUser } from "./state/user";
 
 const FillApp = styled.div<{ bottom: number }>`
   margin-bottom: calc(${(props) => props.bottom}px + 5%);
@@ -11,12 +13,13 @@ const FillApp = styled.div<{ bottom: number }>`
 function App() {
   const bottomNavigationRef = useRef(null as null | HTMLDivElement);
   const [bottomHeight, setBottomHeight] = useState(0);
+  const dispatch = useAppDispatch();
 
   const pagesRoutes = pages.map((page) => (
     <Route
       exact
-      key={`/${page.name}`}
-      path={`/${page.name}`}
+      key={`/${page.name.toLowerCase()}`}
+      path={`/${page.name.toLowerCase()}`}
       component={page}
     />
   ));
@@ -26,6 +29,18 @@ function App() {
       setBottomHeight(bottomNavigationRef.current.offsetHeight);
     }
   }, [bottomNavigationRef]);
+
+  // Initial loading
+  useEffect(() => {
+    dispatch(
+      setUser({
+        firstName: "אופיר",
+        lastName: "רבי",
+        imageUrl:
+          "https://lh3.googleusercontent.com/ogw/ADea4I5OQ4d6jHTjKyiWS7F_dTcKEVAN3UA0eoU2RxenJA=s83-c-mo",
+      })
+    );
+  }, [dispatch]);
 
   return (
     <Router>

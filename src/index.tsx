@@ -5,11 +5,29 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import {
+  StylesProvider,
+  jssPreset,
+  ThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core/styles";
+import { create } from "jss";
+import rtl from "jss-rtl";
+
+const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+
+const theme = createMuiTheme({
+  direction: "rtl",
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <StylesProvider jss={jss}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </StylesProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

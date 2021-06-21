@@ -10,3 +10,9 @@ interface IGame {
   homeTeam: ITeam;
   awayTeam: ITeam;
 }
+
+interface IUser {
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+}
