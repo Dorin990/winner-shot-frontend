@@ -1,4 +1,7 @@
 import SingleGame from "../components/SingleGame";
+import { useAppSelector, useAppDispatch } from "../state/hooks";
+import { useEffect } from "react";
+import { setAvailableGames } from "../state/games";
 
 const games: IGame[] = [
   {
@@ -45,9 +48,16 @@ const games: IGame[] = [
 ];
 
 export default function Play() {
-  const singleGames = games.map((game) => (
+  const dispatch = useAppDispatch();
+  const availableGames = useAppSelector((state) => state.games.availableGames);
+
+  const singleGames = availableGames.map((game) => (
     <SingleGame key={game.id} game={game} />
   ));
 
-  return <>{singleGames}</>;
+  useEffect(() => {
+    dispatch(setAvailableGames(games));
+  }, [dispatch]);
+
+  return <div>{singleGames}</div>;
 }

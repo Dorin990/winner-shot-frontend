@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import styled from "styled-components";
+import { PlayArrow } from "@material-ui/icons";
 
 const StickyNavigation = styled(BottomNavigation)`
   width: 100%;
@@ -16,18 +18,29 @@ interface Props {
     | null
     | undefined;
 }
+
+const buttons = [{ label: "שחק", value: "play", icon: <PlayArrow /> }];
+
 export default function CustomBottomNavigation({ innerRef }: Props) {
   const [value, setValue] = useState("play");
+  const history = useHistory();
   return (
     <StickyNavigation
       ref={innerRef}
-      showLabels
       value={value}
-      onChange={(event, newValue) => {
+      onChange={(_event, newValue) => {
         setValue(newValue);
+        history.push(`/${newValue}`);
       }}
     >
-      <BottomNavigationAction label="Play" value="play" />
+      {buttons.map((button) => (
+        <BottomNavigationAction
+          key={button.value}
+          label={button.label}
+          value={button.value}
+          icon={button.icon}
+        />
+      ))}
     </StickyNavigation>
   );
 }

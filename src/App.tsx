@@ -11,18 +11,17 @@ const FillApp = styled.div<{ bottom: number }>`
 function App() {
   const bottomNavigationRef = useRef(null as null | HTMLDivElement);
   const [bottomHeight, setBottomHeight] = useState(0);
+
   const pagesRoutes = pages.map((page) => (
     <Route
       exact
-      key={page.name.toLowerCase()}
-      path={`/${page.name.toLowerCase()}`}
-    >
-      {page}
-    </Route>
+      key={`/${page.name}`}
+      path={`/${page.name}`}
+      component={page}
+    />
   ));
 
   useEffect(() => {
-    console.log(bottomNavigationRef);
     if (bottomNavigationRef.current) {
       setBottomHeight(bottomNavigationRef.current.offsetHeight);
     }
