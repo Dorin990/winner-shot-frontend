@@ -16,12 +16,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   const pagesRoutes = pages.map((page) => (
-    <Route
-      exact
-      key={`/${page.name.toLowerCase()}`}
-      path={`/${page.name.toLowerCase()}`}
-      component={page}
-    />
+    <Route exact key={page.path} path={page.path} component={page.component} />
   ));
 
   useEffect(() => {
@@ -34,6 +29,7 @@ function App() {
   useEffect(() => {
     dispatch(
       setUser({
+        id: 1,
         firstName: "אופיר",
         lastName: "רבי",
         imageUrl:

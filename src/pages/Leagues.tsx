@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from "../state/hooks";
 import LeagueCard from "../components/LeagueCard";
 import { useEffect } from "react";
 import { setLeagues } from "../state/leagues";
+import AddLeagueButton from "../components/AddLeagueButton";
 
 export default function Leagues() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ export default function Leagues() {
       {leagues.map((league) => (
         <LeagueCard key={league.name} league={league} />
       ))}
+      <AddLeagueButton />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   padding: 5%;
@@ -22,8 +23,14 @@ interface Props {
   league: ILeague;
 }
 export default function LeagueCard({ league }: Props) {
+  const history = useHistory();
+
+  const onLeagueClick = () => {
+    history.push(`/leagues/${league.name}`);
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClick={onLeagueClick}>
       <Avatar>{league.name[0]}</Avatar>
       <Details>
         <LeagueName>{league.name}</LeagueName>

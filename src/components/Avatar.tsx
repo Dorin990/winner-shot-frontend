@@ -10,16 +10,20 @@ const StyledAvatar = styled(Avatar)`
   &.MuiAvatar-root {
     width: 50vw;
     height: 50vw;
+    font-size: 20vw;
   }
 `;
 
 interface Props {
-  imageUrl: string;
+  imageUrl?: string;
+  firstLetter: string;
 }
-export default function CustomAvatar({ imageUrl }: Props) {
+export default function CustomAvatar({ imageUrl, firstLetter }: Props) {
   return (
     <Wrapper>
-      <StyledAvatar src={imageUrl} />
+      <StyledAvatar src={imageUrl}>
+        {!imageUrl && !!firstLetter && firstLetter.toUpperCase()}
+      </StyledAvatar>
     </Wrapper>
   );
 }

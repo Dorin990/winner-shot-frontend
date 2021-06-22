@@ -2,8 +2,23 @@ import styled from "styled-components";
 import { Slider, Grid } from "@material-ui/core";
 import { useState } from "react";
 import Card from "./Card";
+import { CheckCircleOutline, HighlightOff } from "@material-ui/icons";
 
 const TeamsWrapper = styled(Grid)``;
+
+const PositiveIcon = styled(CheckCircleOutline)`
+  &.MuiSvgIcon-root {
+    color: green;
+    font-size: 50px;
+  }
+`;
+
+const NegativeIcon = styled(HighlightOff)`
+  &.MuiSvgIcon-root {
+    color: red;
+    font-size: 50px;
+  }
+`;
 
 interface TeamProps {
   $isHighlighted: boolean;
@@ -24,6 +39,12 @@ const TeamName = styled.span`
   margin: 2%;
 `;
 
+const UserChoise = styled(Grid)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 interface TeamImageProps {
   $isLoaded: boolean;
 }
@@ -39,12 +60,19 @@ interface Props {
   game: IGame;
 }
 export default function SingleGame({ game }: Props) {
-  const [winningRange, setWinningRange] = useState([0, POINTS_DIFFERENCE]);
-  const [winningTeam, setWinningTeam] = useState(0);
+  const [winningRange, setWinningRange] = useState([
+    game.userChoise?.lowRange || 0,
+    game.userChoise?.highRange || POINTS_DIFFERENCE,
+  ]);
+  const [winningTeam, setWinningTeam] = useState(
+    game.userChoise?.winnerTeamId || 0
+  );
   // Home and away teams
   const [teamsImagesToLoad, setTeamImagesToLoad] = useState(2);
 
   const handleWinningRangeChange = (newValue: any) => {
+    if (game.userChoise) return;
+
     if (newValue[0] !== winningRange[0]) {
       if (newValue[0] > MAX_RANGE - POINTS_DIFFERENCE + 1) {
         newValue[0] = MAX_RANGE - POINTS_DIFFERENCE + 1;
@@ -69,6 +97,7 @@ export default function SingleGame({ game }: Props) {
   };
 
   const changeWinningTeam = (id: number) => {
+    if (game.userChoise) return;
     setWinningTeam(id);
   };
 
@@ -89,6 +118,11 @@ export default function SingleGame({ game }: Props) {
               src={game.homeTeam.imageUrl}
             />
           </Team>
+          {!!game.userChoise && (
+            <UserChoise item xs={4}>
+              {game.userChoise.isCorrect ? <PositiveIcon /> : <NegativeIcon />}
+            </UserChoise>
+          )}
           <Team
             item
             xs={4}
