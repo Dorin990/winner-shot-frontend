@@ -11,9 +11,18 @@ const StickyButton = styled(Fab)`
   }
 `;
 
-export default function AddLeagueButton() {
+interface Props {
+  setOpen: (value: boolean) => void;
+}
+export default function AddLeagueButton({ setOpen }: Props) {
   return (
-    <StickyButton color="primary" size="small">
+    <StickyButton
+      color="primary"
+      size="small"
+      onClick={() => {
+        setOpen(true);
+      }}
+    >
       <AddIcon />
     </StickyButton>
   );

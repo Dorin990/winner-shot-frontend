@@ -2,18 +2,26 @@ import styled from "styled-components";
 import { Slider, Grid } from "@material-ui/core";
 import { useState } from "react";
 import Card from "./Card";
-import { CheckCircleOutline, HighlightOff } from "@material-ui/icons";
+import { CheckCircleOutline, HighlightOff, Adjust } from "@material-ui/icons";
+import { EGameState } from "../utils/enums";
 
 const TeamsWrapper = styled(Grid)``;
 
-const PositiveIcon = styled(CheckCircleOutline)`
+const BullIcon = styled(Adjust)`
+  &.MuiSvgIcon-root {
+    color: purple;
+    font-size: 50px;
+  }
+`;
+
+const CorrectIcon = styled(CheckCircleOutline)`
   &.MuiSvgIcon-root {
     color: green;
     font-size: 50px;
   }
 `;
 
-const NegativeIcon = styled(HighlightOff)`
+const WrongIcon = styled(HighlightOff)`
   &.MuiSvgIcon-root {
     color: red;
     font-size: 50px;
@@ -120,7 +128,9 @@ export default function SingleGame({ game }: Props) {
           </Team>
           {!!game.userChoise && (
             <UserChoise item xs={4}>
-              {game.userChoise.isCorrect ? <PositiveIcon /> : <NegativeIcon />}
+              {game.userChoise.state === EGameState.WRONG && <WrongIcon />}
+              {game.userChoise.state === EGameState.CORRECT && <CorrectIcon />}
+              {game.userChoise.state === EGameState.BULL && <BullIcon />}
             </UserChoise>
           )}
           <Team

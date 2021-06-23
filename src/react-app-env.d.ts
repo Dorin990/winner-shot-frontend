@@ -17,12 +17,17 @@ interface IUser {
   firstName: string;
   lastName: string;
   imageUrl: string;
+  bulls?: number;
+  corrects?: number;
+  wrongs?: number;
+  points?: number;
 }
 
 interface ILeague {
   name: string;
   userPlace: number;
   count: number;
+  users?: IUser[];
 }
 
 interface IUserChoice {
@@ -31,5 +36,5 @@ interface IUserChoice {
   winnerTeamId: number;
   lowRange: number;
   highRange: number;
-  isCorrect: boolean;
+  state: number;
 }

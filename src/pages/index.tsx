@@ -6,6 +6,7 @@ import League from "./League";
 const pages = [
   { component: Play, path: "/play" },
   { component: Settings, path: "/settings" },
+  { component: Settings, path: "/settings/:userId" },
   { component: Leagues, path: "/leagues" },
   { component: League, path: "/leagues/:leagueName" },
 ];

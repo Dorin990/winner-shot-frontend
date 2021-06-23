@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useAppSelector } from "../state/hooks";
 import { useEffect, useState } from "react";
 import SingleGame from "../components/SingleGame";
+import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 5%;
@@ -39,7 +40,7 @@ const games: IGame[] = [
       gameId: 1,
       highRange: 7,
       lowRange: 3,
-      isCorrect: true,
+      state: 2,
       userId: 1,
       winnerTeamId: 1,
     },
@@ -60,7 +61,7 @@ const games: IGame[] = [
       gameId: 2,
       highRange: 13,
       lowRange: 9,
-      isCorrect: false,
+      state: 1,
       userId: 1,
       winnerTeamId: 4,
     },
@@ -82,7 +83,7 @@ const games: IGame[] = [
       gameId: 3,
       highRange: 4,
       lowRange: 0,
-      isCorrect: true,
+      state: 0,
       userId: 1,
       winnerTeamId: 5,
     },
@@ -90,24 +91,42 @@ const games: IGame[] = [
 ];
 
 export default function Settings() {
+  const { userId } = useParams<{ userId: string | undefined }>();
   const [completedGames, setCompletedGames] = useState<IGame[]>([]);
+  const [shownFirstName, setShownFirstName] = useState("");
+  const [shownLastName, setShownLastName] = useState("");
+  const [shownImageUrl, setShownImageUrl] = useState("");
   const { firstName, lastName, imageUrl } = useAppSelector(
     (state) => state.user
   );
 
   useEffect(() => {
-    setCompletedGames(games);
-  }, []);
+    // Show connected user
+    if (!userId) {
+      setShownFirstName(firstName);
+      setShownLastName(lastName);
+      setShownImageUrl(imageUrl);
+      setCompletedGames(games);
+    } else {
+      // Show chosen user
+      setShownFirstName("שם מהשרת");
+      setShownLastName("משפחה מהשרת");
+      setShownImageUrl("");
+      setCompletedGames([]);
+    }
+  }, [firstName, lastName, imageUrl, userId]);
 
   return (
     <Wrapper>
-      <Avatar imageUrl={imageUrl} firstLetter={firstName[0]} />
+      <Avatar imageUrl={shownImageUrl} firstLetter={shownFirstName[0]} />
       <Name>
-        {firstName} {lastName}
+        {shownFirstName} {shownLastName}
       </Name>
-      <Signout fullWidth variant="contained">
-        התנתק
-      </Signout>
+      {!userId && (
+        <Signout fullWidth variant="contained">
+          התנתק
+        </Signout>
+      )}
       {completedGames.map((game) => (
         <SingleGame key={game.id} game={game} />
       ))}

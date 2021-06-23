@@ -1,12 +1,14 @@
 import { useAppSelector, useAppDispatch } from "../state/hooks";
 import LeagueCard from "../components/LeagueCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setLeagues } from "../state/leagues";
 import AddLeagueButton from "../components/AddLeagueButton";
+import AddOrJoinLeagueMenu from "../components/AddOrJoinLeagueMenu";
 
 export default function Leagues() {
   const dispatch = useAppDispatch();
   const leagues = useAppSelector((state) => state.leagues.leagues);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -24,7 +26,8 @@ export default function Leagues() {
       {leagues.map((league) => (
         <LeagueCard key={league.name} league={league} />
       ))}
-      <AddLeagueButton />
+      <AddLeagueButton setOpen={setOpen} />
+      <AddOrJoinLeagueMenu open={open} setOpen={setOpen} />
     </>
   );
 }
