@@ -16,20 +16,14 @@ const league: ILeague = {
       lastName: "רבי",
       imageUrl:
         "https://lh3.googleusercontent.com/ogw/ADea4I5OQ4d6jHTjKyiWS7F_dTcKEVAN3UA0eoU2RxenJA=s83-c-mo",
-      bulls: 1,
-      corrects: 1,
-      wrongs: 1,
-      points: 4,
+      score: { userId: 1, bulls: 1, corrects: 1, wrongs: 1, points: 4 },
     },
     {
       id: 2,
       firstName: "דורין",
       lastName: "לב",
       imageUrl: "",
-      bulls: 0,
-      corrects: 2,
-      wrongs: 1,
-      points: 2,
+      score: { userId: 2, bulls: 0, corrects: 2, wrongs: 1, points: 2 },
     },
   ],
 };

@@ -17,10 +17,15 @@ interface IUser {
   firstName: string;
   lastName: string;
   imageUrl: string;
-  bulls?: number;
-  corrects?: number;
-  wrongs?: number;
-  points?: number;
+  score?: IUserScore;
+}
+
+interface IUserScore {
+  userId: number;
+  bulls: number;
+  corrects: number;
+  wrongs: number;
+  points: number;
 }
 
 interface ILeague {

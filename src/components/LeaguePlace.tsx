@@ -45,16 +45,16 @@ export default function LeaguePlace({ user, place }: Props) {
         <Avatar style={{ zIndex: 0 }} src={user.imageUrl} />
       </Grid>
       <Grid item xs={2}>
-        <Score>{user.bulls}</Score>
+        <Score>{user.score?.bulls}</Score>
       </Grid>
       <Grid item xs={2}>
-        <Score>{user.corrects}</Score>
+        <Score>{user.score?.corrects}</Score>
       </Grid>
       <Grid item xs={2}>
-        <Score>{user.wrongs}</Score>
+        <Score>{user.score?.wrongs}</Score>
       </Grid>
       <Grid item xs={3}>
-        <Score bold>{user.points}</Score>
+        <Score bold>{user.score?.points}</Score>
       </Grid>
     </Wrapper>
   );
