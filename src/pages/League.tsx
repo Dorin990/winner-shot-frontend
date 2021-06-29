@@ -11,17 +11,15 @@ const league: ILeague = {
   count: 27,
   users: [
     {
-      id: 1,
-      firstName: "אופיר",
-      lastName: "רבי",
+      id: "1",
+      name: "אופי רבי",
       imageUrl:
         "https://lh3.googleusercontent.com/ogw/ADea4I5OQ4d6jHTjKyiWS7F_dTcKEVAN3UA0eoU2RxenJA=s83-c-mo",
       score: { userId: 1, bulls: 1, corrects: 1, wrongs: 1, points: 4 },
     },
     {
-      id: 2,
-      firstName: "דורין",
-      lastName: "לב",
+      id: "2",
+      name: "דורין",
       imageUrl: "",
       score: { userId: 2, bulls: 0, corrects: 2, wrongs: 1, points: 2 },
     },

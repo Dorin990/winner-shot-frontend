@@ -5,6 +5,7 @@ import { useAppSelector } from "../state/hooks";
 import { useEffect, useState } from "react";
 import SingleGame from "../components/SingleGame";
 import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Wrapper = styled.div`
   margin: 5%;
@@ -93,37 +94,35 @@ const games: IGame[] = [
 export default function Settings() {
   const { userId } = useParams<{ userId: string | undefined }>();
   const [completedGames, setCompletedGames] = useState<IGame[]>([]);
-  const [shownFirstName, setShownFirstName] = useState("");
-  const [shownLastName, setShownLastName] = useState("");
+  const [shownName, setShownName] = useState("");
   const [shownImageUrl, setShownImageUrl] = useState("");
-  const { firstName, lastName, imageUrl } = useAppSelector(
-    (state) => state.user
-  );
+  const { name, imageUrl } = useAppSelector((state) => state.user);
+  const { logout } = useAuth0();
+
+  const onLogout = () => {
+    logout({ returnTo: window.location.origin });
+  };
 
   useEffect(() => {
     // Show connected user
     if (!userId) {
-      setShownFirstName(firstName);
-      setShownLastName(lastName);
+      setShownName(name);
       setShownImageUrl(imageUrl);
       setCompletedGames(games);
     } else {
       // Show chosen user
-      setShownFirstName("שם מהשרת");
-      setShownLastName("משפחה מהשרת");
+      setShownName("שם מהשרת");
       setShownImageUrl("");
       setCompletedGames([]);
     }
-  }, [firstName, lastName, imageUrl, userId]);
+  }, [name, imageUrl, userId]);
 
   return (
     <Wrapper>
-      <Avatar imageUrl={shownImageUrl} firstLetter={shownFirstName[0]} />
-      <Name>
-        {shownFirstName} {shownLastName}
-      </Name>
+      <Avatar imageUrl={shownImageUrl} firstLetter={shownName[0]} />
+      <Name>{shownName}</Name>
       {!userId && (
-        <Signout fullWidth variant="contained">
+        <Signout fullWidth variant="contained" onClick={onLogout}>
           התנתק
         </Signout>
       )}

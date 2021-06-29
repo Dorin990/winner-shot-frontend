@@ -21,7 +21,7 @@ interface Props {
 
 const buttons = [
   { label: "הגדרות", value: "/settings", icon: <Settings /> },
-  { label: "שחק", value: "/play", icon: <PlayArrow /> },
+  { label: "שחק", value: "/", icon: <PlayArrow /> },
   { label: "ליגות", value: "/leagues", icon: <ShowChart /> },
 ];
 

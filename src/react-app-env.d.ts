@@ -13,9 +13,8 @@ interface IGame {
 }
 
 interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
+  id: string;
+  name: string;
   imageUrl: string;
   score?: IUserScore;
 }

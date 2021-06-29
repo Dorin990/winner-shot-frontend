@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core/styles";
 import { create } from "jss";
 import rtl from "jss-rtl";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
@@ -22,13 +23,19 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <StylesProvider jss={jss}>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </StylesProvider>
-    </Provider>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH_DOMAIN ?? ""}
+      clientId={process.env.REACT_APP_AUTH_CLIENT_ID ?? ""}
+      redirectUri={window.location.origin}
+    >
+      <Provider store={store}>
+        <StylesProvider jss={jss}>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </StylesProvider>
+      </Provider>
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
