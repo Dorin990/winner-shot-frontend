@@ -5,7 +5,7 @@ export const useSecureFetch = (path: string) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const result = useCallback(async () => {
-    const token = getAccessTokenSilently();
+    const token = await getAccessTokenSilently();
     try {
       return await fetch(`${process.env.REACT_APP_SERVER_URL}/${path}`, {
         headers: { Authorization: "Bearer " + token },
