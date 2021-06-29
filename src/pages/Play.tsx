@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { setAvailableGames } from "../state/games";
 import Title from "../components/Title";
 import SubTitle from "../components/SubTitle";
-import GameService from "../services/Game";
+import { useSecureFetch } from "../utils/hooks";
 
 export default function Play() {
   const dispatch = useAppDispatch();
   const availableGames = useAppSelector((state) => state.games.availableGames);
+  const gamesAPI = useSecureFetch("games");
 
   const singleGames = availableGames.map((game) => (
     <SingleGame key={game.id} game={game} />
@@ -17,13 +18,13 @@ export default function Play() {
   useEffect(() => {
     (async function () {
       try {
-        const games = await GameService.getAvailableGames();
+        const games = await gamesAPI();
         dispatch(setAvailableGames(games));
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, gamesAPI]);
 
   return (
     <div>

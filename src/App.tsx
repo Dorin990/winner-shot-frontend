@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import BottomNavigation from "./components/BottomNavigation";
 import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -18,16 +23,20 @@ function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   // All routes according to auth state
-  const pagesRoutes = pages
-    .filter((page) => page.requiresAuth === isAuthenticated && !isLoading)
-    .map((page) => (
-      <Route
-        exact
-        key={page.path}
-        path={page.path}
-        component={page.component}
-      />
-    ));
+  const pagesRoutes =
+    !isLoading &&
+    pages
+      .filter((page) => page.requiresAuth === isAuthenticated)
+      .map((page) => (
+        <Route
+          exact={page.path !== "*"}
+          key={page.path}
+          path={page.path}
+          component={page.path !== "*" ? page.component : undefined}
+        >
+          {page.path === "*" && <Redirect to="/" />}
+        </Route>
+      ));
 
   // Set the body height according to the bottom navigation height
   useEffect(() => {
@@ -39,7 +48,6 @@ function App() {
   // Initial loading
   useEffect(() => {
     if (!user) return;
-    console.log(user);
     dispatch(
       setUser({
         id: "1",

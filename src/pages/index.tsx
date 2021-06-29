@@ -11,6 +11,8 @@ const pages = [
   { component: Leagues, path: "/leagues", requiresAuth: true },
   { component: League, path: "/leagues/:leagueName", requiresAuth: true },
   { component: Home, path: "/", requiresAuth: false },
+  { component: Play, path: "*", requiresAuth: true },
+  { component: Home, path: "*", requiresAuth: false },
 ];
 
 export default pages;

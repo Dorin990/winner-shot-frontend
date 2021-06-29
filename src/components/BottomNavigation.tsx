@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import styled from "styled-components";
@@ -30,12 +30,15 @@ export default function CustomBottomNavigation({ innerRef }: Props) {
   const location = useLocation();
   const [value, setValue] = useState(location.pathname);
 
+  useEffect(() => {
+    setValue(location.pathname);
+  }, [location.pathname]);
+
   return (
     <StickyNavigation
       ref={innerRef}
       value={value}
       onChange={(_event, newValue) => {
-        setValue(newValue);
         history.push(newValue);
       }}
     >
