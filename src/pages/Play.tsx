@@ -9,7 +9,7 @@ import { useSecureFetch } from "../utils/hooks";
 export default function Play() {
   const dispatch = useAppDispatch();
   const availableGames = useAppSelector((state) => state.games.availableGames);
-  const gamesAPI = useSecureFetch("games");
+  const getCurrentGames = useSecureFetch("games", "GET");
 
   const singleGames = availableGames.map((game) => (
     <SingleGame key={game.id} game={game} />
@@ -18,13 +18,13 @@ export default function Play() {
   useEffect(() => {
     (async function () {
       try {
-        const games = await gamesAPI();
+        const games = await getCurrentGames();
         dispatch(setAvailableGames(games));
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [dispatch, gamesAPI]);
+  }, [dispatch, getCurrentGames]);
 
   return (
     <div>
