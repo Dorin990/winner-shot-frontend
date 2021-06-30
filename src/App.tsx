@@ -25,7 +25,7 @@ function App() {
     if (bottomNavigationRef.current) {
       setBottomHeight(bottomNavigationRef.current.offsetHeight);
     }
-  }, [bottomNavigationRef]);
+  }, [bottomNavigationRef, isAuthenticated]);
 
   // Initial loading
   useEffect(() => {
