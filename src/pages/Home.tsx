@@ -1,34 +1,33 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { createStyles, Grid, IconButton, InputAdornment, makeStyles, Divider, TextField, Theme, Paper, Button, ThemeProvider } from "@material-ui/core";
+import { createStyles, Grid, IconButton, InputAdornment, makeStyles, Divider, TextField, Theme, Button } from "@material-ui/core";
 import { useState } from "react";
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { EmailOutlined, Visibility, VisibilityOff} from '@material-ui/icons';
+// import Visibility from "@material-ui/icons/Visibility";
+// import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-export default function Home() {
-
-  const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      direction: 'rtl',
-    },
-    title:{
-      color: 'cornsilk',
-      textAlign: 'center'
-    },
-    gridContainer:{
-      backgroundColor: 'burlywood'
-    },
-    gridItem:{
-      textAlign: 'center'
-    },
-    button:{
-      backgroundColor: 'cornsilk',
-      color:'burlywood'
-    }
-  }),
+const useStyles = makeStyles((theme: Theme) =>
+createStyles({
+  root: {
+    // direction: 'rtl',
+  },
+  title:{
+    color: 'cornsilk',
+    textAlign: 'center'
+  },
+  gridContainer:{
+    backgroundColor: 'burlywood'
+  },
+  gridItem:{
+    textAlign: 'center'
+  },
+  button:{
+    backgroundColor: 'cornsilk',
+    color:'burlywood'
+  }
+}),
 );
 
+export default function Home() {
   const { loginWithRedirect } = useAuth0();
   const [allValues, setAllValues] = useState({
     email: '',
@@ -68,7 +67,7 @@ export default function Home() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <MailOutlineIcon />
+                  <EmailOutlined />
                 </InputAdornment>
               ),
             }}
